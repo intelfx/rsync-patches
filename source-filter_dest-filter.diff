@@ -30,7 +30,7 @@ To use this patch, run these commands for a successful build:
     ./configure                                (optional if already run)
     make
 
-based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
+based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
 diff --git a/generator.c b/generator.c
 --- a/generator.c
 +++ b/generator.c
@@ -42,7 +42,7 @@ diff --git a/generator.c b/generator.c
  extern int size_only;
  extern OFF_T max_size;
  extern OFF_T min_size;
-@@ -618,7 +619,7 @@ int quick_check_ok(enum filetype ftype, const char *fn, struct file_struct *file
+@@ -624,7 +625,7 @@ int quick_check_ok(enum filetype ftype, const char *fn, struct file_struct *file
  {
  	switch (ftype) {
  	  case FT_REG:
@@ -66,15 +66,15 @@ diff --git a/main.c b/main.c
 diff --git a/options.c b/options.c
 --- a/options.c
 +++ b/options.c
-@@ -119,6 +119,7 @@ int safe_symlinks = 0;
- int copy_unsafe_links = 0;
+@@ -129,6 +129,7 @@ int copy_unsafe_links = 0;
  int munge_symlinks = 0;
+ int use_secure_symlinks = 0;
  int size_only = 0;
 +int times_only = 0;
  int daemon_bwlimit = 0;
  int bwlimit = 0;
  int fuzzy_basis = 0;
-@@ -179,6 +180,8 @@ char *logfile_name = NULL;
+@@ -189,6 +190,8 @@ char *logfile_name = NULL;
  char *logfile_format = NULL;
  char *stdout_format = NULL;
  char *password_file = NULL;
@@ -83,7 +83,7 @@ diff --git a/options.c b/options.c
  char *early_input_file = NULL;
  char *rsync_path = RSYNC_PATH;
  char *backup_dir = NULL;
-@@ -689,6 +692,7 @@ static struct poptOption long_options[] = {
+@@ -699,6 +702,7 @@ static struct poptOption long_options[] = {
    {"chmod",            0,  POPT_ARG_STRING, 0, OPT_CHMOD, 0, 0 },
    {"ignore-times",    'I', POPT_ARG_NONE,   &ignore_times, 0, 0, 0 },
    {"size-only",        0,  POPT_ARG_NONE,   &size_only, 0, 0, 0 },
@@ -91,7 +91,7 @@ diff --git a/options.c b/options.c
    {"one-file-system", 'x', POPT_ARG_NONE,   0, 'x', 0, 0 },
    {"no-one-file-system",0, POPT_ARG_VAL,    &one_file_system, 0, 0, 0 },
    {"no-x",             0,  POPT_ARG_VAL,    &one_file_system, 0, 0, 0 },
-@@ -829,6 +833,8 @@ static struct poptOption long_options[] = {
+@@ -841,6 +845,8 @@ static struct poptOption long_options[] = {
    {"early-input",      0,  POPT_ARG_STRING, &early_input_file, 0, 0, 0 },
    {"blocking-io",      0,  POPT_ARG_VAL,    &blocking_io, 1, 0, 0 },
    {"no-blocking-io",   0,  POPT_ARG_VAL,    &blocking_io, 0, 0, 0 },
@@ -100,7 +100,7 @@ diff --git a/options.c b/options.c
    {"outbuf",           0,  POPT_ARG_STRING, &outbuf_mode, 0, 0, 0 },
    {"remote-option",   'M', POPT_ARG_STRING, 0, 'M', 0, 0 },
    {"protocol",         0,  POPT_ARG_INT,    &protocol_version, 0, 0, 0 },
-@@ -2444,6 +2450,16 @@ int parse_arguments(int *argc_p, const char ***argv_p)
+@@ -2462,6 +2468,16 @@ int parse_arguments(int *argc_p, const char ***argv_p)
  		}
  	}
  
@@ -117,7 +117,7 @@ diff --git a/options.c b/options.c
  	if (files_from) {
  		char *h, *p;
  		int q;
-@@ -2852,6 +2868,25 @@ void server_options(char **args, int *argc_p)
+@@ -2870,6 +2886,25 @@ void server_options(char **args, int *argc_p)
  	else if (missing_args == 1 && !am_sender)
  		args[ac++] = "--ignore-missing-args";
  
@@ -243,7 +243,7 @@ diff --git a/receiver.c b/receiver.c
  extern char *partial_dir;
  extern char *basis_dir[MAX_BASIS_DIRS+1];
  extern char sender_file_sum[MAX_DIGEST_LEN];
-@@ -529,6 +530,7 @@ int recv_files(int f_in, int f_out, char *local_name)
+@@ -552,6 +553,7 @@ int recv_files(int f_in, int f_out, char *local_name)
  	char *fnametmp, fnametmpbuf[MAXPATHLEN];
  	char *fnamecmp, *partialptr;
  	char fnamecmpbuf[MAXPATHLEN];
@@ -251,7 +251,7 @@ diff --git a/receiver.c b/receiver.c
  	uchar fnamecmp_type;
  	struct file_struct *file;
  	int itemizing = am_server ? logfile_format_has_i : stdout_format_has_i;
-@@ -539,6 +541,7 @@ int recv_files(int f_in, int f_out, char *local_name)
+@@ -562,6 +564,7 @@ int recv_files(int f_in, int f_out, char *local_name)
  	const char *parent_dirname = "";
  #endif
  	int ndx, recv_ok, one_inplace;
@@ -259,7 +259,7 @@ diff --git a/receiver.c b/receiver.c
  
  	if (DEBUG_GTE(RECV, 1))
  		rprintf(FINFO, "recv_files(%d) starting\n", cur_flist->used);
-@@ -549,6 +552,23 @@ int recv_files(int f_in, int f_out, char *local_name)
+@@ -572,6 +575,23 @@ int recv_files(int f_in, int f_out, char *local_name)
  	if (whole_file < 0)
  		whole_file = 0;
  
@@ -283,7 +283,7 @@ diff --git a/receiver.c b/receiver.c
  	progress_init();
  
  	while (1) {
-@@ -888,6 +908,9 @@ int recv_files(int f_in, int f_out, char *local_name)
+@@ -923,6 +943,9 @@ int recv_files(int f_in, int f_out, char *local_name)
  		else if (!am_server && INFO_GTE(NAME, 1) && INFO_EQ(PROGRESS, 1))
  			rprintf(FINFO, "%s\n", fname);
  
@@ -293,7 +293,7 @@ diff --git a/receiver.c b/receiver.c
  		/* recv file data */
  		recv_ok = receive_data(f_in, fnamecmp, fd1, st.st_size, fname, fd2, file, inplace || one_inplace);
  
-@@ -903,6 +926,16 @@ int recv_files(int f_in, int f_out, char *local_name)
+@@ -938,6 +961,16 @@ int recv_files(int f_in, int f_out, char *local_name)
  			exit_cleanup(RERR_FILEIO);
  		}
  
@@ -321,7 +321,7 @@ diff --git a/rsync.1.md b/rsync.1.md
  --modify-window=NUM, -@  set the accuracy for mod-time comparisons
  --temp-dir=DIR, -T       create temporary files in directory DIR
  --fuzzy, -y              find similar file for basis if no dest file
-@@ -553,6 +554,8 @@ has its own detailed description later in this manpage.
+@@ -554,6 +555,8 @@ has its own detailed description later in this manpage.
  --write-batch=FILE       write a batched update to FILE
  --only-write-batch=FILE  like --write-batch but w/o updating dest
  --read-batch=FILE        read a batched update from FILE
@@ -330,7 +330,7 @@ diff --git a/rsync.1.md b/rsync.1.md
  --protocol=NUM           force an older protocol version to be used
  --iconv=CONVERT_SPEC     request charset conversion of filenames
  --checksum-seed=NUM      set block/file checksum seed (advanced)
-@@ -3713,6 +3716,36 @@ expand it.
+@@ -3730,6 +3733,36 @@ expand it.
      [`--write-batch`](#opt).  If _FILE_ is `-`, the batch data will be read
      from standard input. See the "BATCH MODE" section for details.
  
@@ -370,7 +370,7 @@ diff --git a/rsync.1.md b/rsync.1.md
 diff --git a/rsync.h b/rsync.h
 --- a/rsync.h
 +++ b/rsync.h
-@@ -170,6 +170,7 @@
+@@ -193,6 +193,7 @@
  #define IOERR_DEL_LIMIT (1<<2)
  
  #define MAX_ARGS 1000
@@ -389,7 +389,7 @@ diff --git a/sender.c b/sender.c
  
  extern int do_xfers;
  extern int am_server;
-@@ -51,6 +52,7 @@ extern int batch_fd;
+@@ -53,6 +54,7 @@ extern char *module_dir;
  extern int write_batch;
  extern int file_old_total;
  extern BOOL want_progress_now;
@@ -397,7 +397,7 @@ diff --git a/sender.c b/sender.c
  extern struct stats stats;
  extern struct file_list *cur_flist, *first_flist, *dir_flist;
  extern char num_dev_ino_buf[4 + 8 + 8];
-@@ -213,6 +215,26 @@ void send_files(int f_in, int f_out)
+@@ -217,6 +219,26 @@ void send_files(int f_in, int f_out)
  	int f_xfer = write_batch < 0 ? batch_fd : f_out;
  	int save_io_error = io_error;
  	int ndx, j;
@@ -424,15 +424,15 @@ diff --git a/sender.c b/sender.c
  
  	if (DEBUG_GTE(SEND, 1))
  		rprintf(FINFO, "send_files starting\n");
-@@ -350,6 +372,7 @@ void send_files(int f_in, int f_out)
+@@ -356,6 +378,7 @@ void send_files(int f_in, int f_out)
  			exit_cleanup(RERR_PROTOCOL);
  		}
  
 +		unlink_tmp = 0;
- 		fd = do_open_checklinks(fname);
- 		if (fd == -1) {
- 			if (errno == ENOENT) {
-@@ -369,6 +392,33 @@ void send_files(int f_in, int f_out)
+ 		if (use_secure_symlinks) {
+ 			/* Open from module root to prevent TOCTOU race where
+ 			 * change_pathname's chdir follows a directory symlink.
+@@ -393,6 +416,33 @@ void send_files(int f_in, int f_out)
  			continue;
  		}
  
@@ -466,7 +466,7 @@ diff --git a/sender.c b/sender.c
  		/* map the local file */
  		if (do_fstat(fd, &st) != 0) {
  			io_error |= IOERR_GENERAL;
-@@ -439,6 +489,8 @@ void send_files(int f_in, int f_out)
+@@ -463,6 +513,8 @@ void send_files(int f_in, int f_out)
  			}
  		}
  		close(fd);

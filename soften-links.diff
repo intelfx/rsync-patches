@@ -10,11 +10,11 @@ To use this patch, run these commands for a successful build:
     ./configure                           (optional if already run)
     make
 
-based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
+based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
 diff --git a/syscall.c b/syscall.c
 --- a/syscall.c
 +++ b/syscall.c
-@@ -140,13 +140,18 @@ ssize_t do_readlink(const char *path, char *buf, size_t bufsiz)
+@@ -289,13 +289,18 @@ ssize_t do_readlink(const char *path, char *buf, size_t bufsiz)
  #if defined HAVE_LINK || defined HAVE_LINKAT
  int do_link(const char *old_path, const char *new_path)
  {
@@ -33,5 +33,5 @@ diff --git a/syscall.c b/syscall.c
 +		st = symlink(old_path, new_path);
 +	return st;
  }
- #endif
  
+ /*

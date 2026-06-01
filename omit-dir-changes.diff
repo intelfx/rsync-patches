@@ -7,7 +7,7 @@ To use this patch, run these commands for a successful build:
     ./configure                              (optional if already run)
     make
 
-based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
+based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
 diff --git a/generator.c b/generator.c
 --- a/generator.c
 +++ b/generator.c
@@ -19,7 +19,7 @@ diff --git a/generator.c b/generator.c
  extern int omit_dir_times;
  extern int omit_link_times;
  extern int delete_mode;
-@@ -510,6 +511,7 @@ void itemize(const char *fnamecmp, struct file_struct *file, int ndx, int statre
+@@ -516,6 +517,7 @@ void itemize(const char *fnamecmp, struct file_struct *file, int ndx, int statre
  		    : S_ISDIR(file->mode) ? !omit_dir_times
  		    : S_ISLNK(file->mode) ? !omit_link_times
  		    : 1;
@@ -27,7 +27,7 @@ diff --git a/generator.c b/generator.c
  
  		if (S_ISREG(file->mode) && F_LENGTH(file) != sxp->st.st_size)
  			iflags |= ITEM_REPORT_SIZE;
-@@ -543,9 +545,9 @@ void itemize(const char *fnamecmp, struct file_struct *file, int ndx, int statre
+@@ -549,9 +551,9 @@ void itemize(const char *fnamecmp, struct file_struct *file, int ndx, int statre
  		} else if (preserve_executability
  		 && ((sxp->st.st_mode & 0111 ? 1 : 0) ^ (file->mode & 0111 ? 1 : 0)))
  			iflags |= ITEM_REPORT_PERMS;
@@ -39,7 +39,7 @@ diff --git a/generator.c b/generator.c
  			iflags |= ITEM_REPORT_GROUP;
  #ifdef SUPPORT_ACLS
  		if (preserve_acls && !S_ISLNK(file->mode)) {
-@@ -1451,7 +1453,7 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
+@@ -1457,7 +1459,7 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
  		real_ret = statret;
  		if (file->flags & FLAG_DIR_CREATED)
  			statret = -1;
@@ -59,7 +59,7 @@ diff --git a/options.c b/options.c
  int omit_dir_times = 0;
  int omit_link_times = 0;
  int trust_sender = 0;
-@@ -647,6 +648,7 @@ static struct poptOption long_options[] = {
+@@ -657,6 +658,7 @@ static struct poptOption long_options[] = {
    {"omit-link-times", 'J', POPT_ARG_VAL,    &omit_link_times, 1, 0, 0 },
    {"no-omit-link-times",0, POPT_ARG_VAL,    &omit_link_times, 0, 0, 0 },
    {"no-J",             0,  POPT_ARG_VAL,    &omit_link_times, 0, 0, 0 },
@@ -67,7 +67,7 @@ diff --git a/options.c b/options.c
    {"modify-window",   '@', POPT_ARG_INT,    &modify_window, OPT_MODIFY_WINDOW, 0, 0 },
    {"super",            0,  POPT_ARG_VAL,    &am_root, 2, 0, 0 },
    {"no-super",         0,  POPT_ARG_VAL,    &am_root, 0, 0, 0 },
-@@ -2321,7 +2323,7 @@ int parse_arguments(int *argc_p, const char ***argv_p)
+@@ -2339,7 +2341,7 @@ int parse_arguments(int *argc_p, const char ***argv_p)
  		parse_filter_str(&filter_list, backup_dir_buf, rule_template(0), 0);
  	}
  
@@ -76,7 +76,7 @@ diff --git a/options.c b/options.c
  		omit_dir_times = -1; /* Implied, so avoid -O to sender. */
  
  	if (stdout_format) {
-@@ -2837,6 +2839,8 @@ void server_options(char **args, int *argc_p)
+@@ -2855,6 +2857,8 @@ void server_options(char **args, int *argc_p)
  			args[ac++] = "--size-only";
  		if (do_stats)
  			args[ac++] = "--stats";
@@ -96,7 +96,7 @@ diff --git a/rsync.1.md b/rsync.1.md
  --super                  receiver attempts super-user activities
  --fake-super             store/recover privileged attrs using xattrs
  --sparse, -S             turn sequences of nulls into sparse blocks
-@@ -1656,6 +1657,11 @@ expand it.
+@@ -1657,6 +1658,11 @@ expand it.
      This tells rsync to omit symlinks when it is preserving modification,
      access, and create times.
  

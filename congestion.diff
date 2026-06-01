@@ -27,7 +27,7 @@ To use this patch, run these commands for a successful build:
     ./configure                         (optional if already run)
     make
 
-based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
+based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
 diff --git a/daemon-parm.txt b/daemon-parm.txt
 --- a/daemon-parm.txt
 +++ b/daemon-parm.txt
@@ -59,7 +59,7 @@ diff --git a/options.c b/options.c
  int remove_source_files = 0;
  int one_file_system = 0;
  int protocol_version = PROTOCOL_VERSION;
-@@ -832,6 +834,8 @@ static struct poptOption long_options[] = {
+@@ -844,6 +846,8 @@ static struct poptOption long_options[] = {
    {"outbuf",           0,  POPT_ARG_STRING, &outbuf_mode, 0, 0, 0 },
    {"remote-option",   'M', POPT_ARG_STRING, 0, 'M', 0, 0 },
    {"protocol",         0,  POPT_ARG_INT,    &protocol_version, 0, 0, 0 },
@@ -71,7 +71,7 @@ diff --git a/options.c b/options.c
 diff --git a/rsync.1.md b/rsync.1.md
 --- a/rsync.1.md
 +++ b/rsync.1.md
-@@ -531,6 +531,8 @@ has its own detailed description later in this manpage.
+@@ -532,6 +532,8 @@ has its own detailed description later in this manpage.
  --address=ADDRESS        bind address for outgoing socket to daemon
  --port=PORT              specify double-colon alternate port number
  --sockopts=OPTIONS       specify custom TCP options
@@ -92,7 +92,7 @@ diff --git a/socket.c b/socket.c
  
  #ifdef HAVE_SIGACTION
  static struct sigaction sigact;
-@@ -166,6 +168,37 @@ static void contimeout_handler(UNUSED(int val))
+@@ -170,6 +172,37 @@ static void contimeout_handler(UNUSED(int val))
  	connect_timeout = -1;
  }
  
@@ -130,7 +130,7 @@ diff --git a/socket.c b/socket.c
  /* Open a socket to a tcp remote host with the specified port.
   *
   * Based on code from Warren.  Proxy support by Stephen Rothwell.
-@@ -272,6 +305,7 @@ int open_socket_out(char *host, int port, const char *bind_addr, int af_hint)
+@@ -276,6 +309,7 @@ int open_socket_out(char *host, int port, const char *bind_addr, int af_hint)
  			alarm(connect_timeout);
  		}
  
@@ -138,7 +138,7 @@ diff --git a/socket.c b/socket.c
  		set_socket_options(s, sockopts);
  		while (connect(s, res->ai_addr, res->ai_addrlen) < 0) {
  			if (connect_timeout < 0)
-@@ -440,6 +474,7 @@ static int *open_socket_in(int type, int port, const char *bind_addr,
+@@ -444,6 +478,7 @@ static int *open_socket_in(int type, int port, const char *bind_addr,
  			continue;
  		}
  

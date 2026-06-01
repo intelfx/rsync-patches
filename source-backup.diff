@@ -9,7 +9,7 @@ To use this patch, run these commands for a successful build:
 
 -- Matt McCutchen <hashproduct@gmail.com>
 
-based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
+based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
 diff --git a/options.c b/options.c
 --- a/options.c
 +++ b/options.c
@@ -21,7 +21,7 @@ diff --git a/options.c b/options.c
  
  /**
   * If 1, send the whole file as literal data rather than trying to
-@@ -777,6 +778,7 @@ static struct poptOption long_options[] = {
+@@ -789,6 +790,7 @@ static struct poptOption long_options[] = {
    {"bwlimit",          0,  POPT_ARG_STRING, &bwlimit_arg, OPT_BWLIMIT, 0, 0 },
    {"no-bwlimit",       0,  POPT_ARG_VAL,    &bwlimit, 0, 0, 0 },
    {"backup",          'b', POPT_ARG_VAL,    &make_backups, 1, 0, 0 },
@@ -29,7 +29,7 @@ diff --git a/options.c b/options.c
    {"no-backup",        0,  POPT_ARG_VAL,    &make_backups, 0, 0, 0 },
    {"backup-dir",       0,  POPT_ARG_STRING, &backup_dir, 0, 0, 0 },
    {"suffix",           0,  POPT_ARG_STRING, &backup_suffix, 0, 0, 0 },
-@@ -2840,6 +2842,8 @@ void server_options(char **args, int *argc_p)
+@@ -2858,6 +2860,8 @@ void server_options(char **args, int *argc_p)
  	} else {
  		if (skip_compress)
  			args[ac++] = safe_arg("--skip-compress", skip_compress);
@@ -49,7 +49,7 @@ diff --git a/rsync.1.md b/rsync.1.md
  --del                    an alias for --delete-during
  --delete                 delete extraneous files from dest dirs
  --delete-before          receiver deletes before xfer, not during
-@@ -1893,6 +1894,17 @@ expand it.
+@@ -1894,6 +1895,17 @@ expand it.
      not remove a file the receiver just verified, such as when the user
      accidentally makes the source and destination directory the same path.
  
@@ -78,7 +78,7 @@ diff --git a/sender.c b/sender.c
  extern int inplace;
  extern int inplace_partial;
  extern int batch_fd;
-@@ -133,6 +134,7 @@ void successful_send(int ndx)
+@@ -135,6 +136,7 @@ void successful_send(int ndx)
  	struct file_struct *file;
  	struct file_list *flist;
  	STRUCT_STAT st;
@@ -86,7 +86,7 @@ diff --git a/sender.c b/sender.c
  
  	if (!remove_source_files)
  		return;
-@@ -164,7 +166,11 @@ void successful_send(int ndx)
+@@ -168,7 +170,11 @@ void successful_send(int ndx)
  		return;
  	}
  

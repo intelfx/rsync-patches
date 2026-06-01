@@ -14,7 +14,7 @@ To use this patch, run these commands for a successful build:
     ./configure                           (optional if already run)
     make
 
-based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
+based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
 diff --git a/flist.c b/flist.c
 --- a/flist.c
 +++ b/flist.c
@@ -26,7 +26,7 @@ diff --git a/flist.c b/flist.c
  extern uid_t our_uid;
  extern struct stats stats;
  extern char *filesfrom_host;
-@@ -1879,6 +1880,9 @@ static void send_directory(int f, struct file_list *flist, char *fbuf, int len,
+@@ -1890,6 +1891,9 @@ static void send_directory(int f, struct file_list *flist, char *fbuf, int len,
  		}
  
  		send_file_name(f, flist, fbuf, NULL, flags, filter_level);
@@ -39,7 +39,7 @@ diff --git a/flist.c b/flist.c
 diff --git a/options.c b/options.c
 --- a/options.c
 +++ b/options.c
-@@ -122,6 +122,7 @@ int size_only = 0;
+@@ -132,6 +132,7 @@ int size_only = 0;
  int daemon_bwlimit = 0;
  int bwlimit = 0;
  int fuzzy_basis = 0;
@@ -47,7 +47,7 @@ diff --git a/options.c b/options.c
  size_t bwlimit_writemax = 0;
  int ignore_existing = 0;
  int ignore_non_existing = 0;
-@@ -774,6 +775,7 @@ static struct poptOption long_options[] = {
+@@ -786,6 +787,7 @@ static struct poptOption long_options[] = {
    {"itemize-changes", 'i', POPT_ARG_NONE,   0, 'i', 0, 0 },
    {"no-itemize-changes",0, POPT_ARG_VAL,    &itemize_changes, 0, 0, 0 },
    {"no-i",             0,  POPT_ARG_VAL,    &itemize_changes, 0, 0, 0 },
@@ -58,7 +58,7 @@ diff --git a/options.c b/options.c
 diff --git a/rsync.1.md b/rsync.1.md
 --- a/rsync.1.md
 +++ b/rsync.1.md
-@@ -547,6 +547,7 @@ has its own detailed description later in this manpage.
+@@ -548,6 +548,7 @@ has its own detailed description later in this manpage.
  --early-input=FILE       use FILE for daemon's early exec input
  --list-only              list the files instead of copying them
  --bwlimit=RATE           limit socket I/O bandwidth

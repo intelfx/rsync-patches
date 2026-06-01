@@ -14,7 +14,7 @@ To use this patch, run these commands for a successful build:
     ./configure                                 (optional if already run)
     make
 
-based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
+based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
 diff --git a/generator.c b/generator.c
 --- a/generator.c
 +++ b/generator.c
@@ -26,7 +26,7 @@ diff --git a/generator.c b/generator.c
  extern int size_only;
  extern OFF_T max_size;
  extern OFF_T min_size;
-@@ -621,6 +622,9 @@ int quick_check_ok(enum filetype ftype, const char *fn, struct file_struct *file
+@@ -627,6 +628,9 @@ int quick_check_ok(enum filetype ftype, const char *fn, struct file_struct *file
  		if (st->st_size != F_LENGTH(file))
  			return 0;
  
@@ -39,15 +39,15 @@ diff --git a/generator.c b/generator.c
 diff --git a/options.c b/options.c
 --- a/options.c
 +++ b/options.c
-@@ -119,6 +119,7 @@ int safe_symlinks = 0;
- int copy_unsafe_links = 0;
+@@ -129,6 +129,7 @@ int copy_unsafe_links = 0;
  int munge_symlinks = 0;
+ int use_secure_symlinks = 0;
  int size_only = 0;
 +int date_only = 0;
  int daemon_bwlimit = 0;
  int bwlimit = 0;
  int fuzzy_basis = 0;
-@@ -689,6 +690,7 @@ static struct poptOption long_options[] = {
+@@ -699,6 +700,7 @@ static struct poptOption long_options[] = {
    {"chmod",            0,  POPT_ARG_STRING, 0, OPT_CHMOD, 0, 0 },
    {"ignore-times",    'I', POPT_ARG_NONE,   &ignore_times, 0, 0, 0 },
    {"size-only",        0,  POPT_ARG_NONE,   &size_only, 0, 0, 0 },
@@ -55,7 +55,7 @@ diff --git a/options.c b/options.c
    {"one-file-system", 'x', POPT_ARG_NONE,   0, 'x', 0, 0 },
    {"no-one-file-system",0, POPT_ARG_VAL,    &one_file_system, 0, 0, 0 },
    {"no-x",             0,  POPT_ARG_VAL,    &one_file_system, 0, 0, 0 },
-@@ -2852,6 +2854,9 @@ void server_options(char **args, int *argc_p)
+@@ -2870,6 +2872,9 @@ void server_options(char **args, int *argc_p)
  	else if (missing_args == 1 && !am_sender)
  		args[ac++] = "--ignore-missing-args";
  
@@ -76,7 +76,7 @@ diff --git a/rsync.1.md b/rsync.1.md
  --modify-window=NUM, -@  set the accuracy for mod-time comparisons
  --temp-dir=DIR, -T       create temporary files in directory DIR
  --fuzzy, -y              find similar file for basis if no dest file
-@@ -776,6 +777,14 @@ expand it.
+@@ -777,6 +778,14 @@ expand it.
      after using another mirroring system which may not preserve timestamps
      exactly.
  

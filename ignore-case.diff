@@ -12,7 +12,7 @@ TODO:
  - Make this code handle multibyte character encodings, and honor the
    --iconv setting when converting case.
 
-based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
+based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
 diff --git a/exclude.c b/exclude.c
 --- a/exclude.c
 +++ b/exclude.c
@@ -48,7 +48,7 @@ diff --git a/flist.c b/flist.c
  extern int ignore_errors;
  extern int numeric_ids;
  extern int quiet;
-@@ -2651,7 +2652,8 @@ struct file_list *recv_file_list(int f, int dir_ndx)
+@@ -2662,7 +2663,8 @@ struct file_list *recv_file_list(int f, int dir_ndx)
  				cur_dir++;
  			if (cur_dir != good_dirname) {
  				const char *d = dir_ndx >= 0 ? f_name(dir_flist->files[dir_ndx], NULL) : empty_dir;
@@ -58,7 +58,7 @@ diff --git a/flist.c b/flist.c
  					rprintf(FERROR,
  						"ABORTING due to invalid path from sender: %s/%s\n",
  						cur_dir, file->basename);
-@@ -3218,6 +3220,7 @@ int f_name_cmp(const struct file_struct *f1, const struct file_struct *f2)
+@@ -3229,6 +3231,7 @@ int f_name_cmp(const struct file_struct *f1, const struct file_struct *f2)
  {
  	int dif;
  	const uchar *c1, *c2;
@@ -66,7 +66,7 @@ diff --git a/flist.c b/flist.c
  	enum fnc_state state1, state2;
  	enum fnc_type type1, type2;
  	enum fnc_type t_path = protocol_version >= 29 ? t_PATH : t_ITEM;
-@@ -3328,7 +3331,15 @@ int f_name_cmp(const struct file_struct *f1, const struct file_struct *f2)
+@@ -3339,7 +3342,15 @@ int f_name_cmp(const struct file_struct *f1, const struct file_struct *f2)
  			if (type1 != type2)
  				return type1 == t_PATH ? 1 : -1;
  		}
@@ -214,7 +214,7 @@ diff --git a/lib/wildmatch.c b/lib/wildmatch.c
 diff --git a/options.c b/options.c
 --- a/options.c
 +++ b/options.c
-@@ -131,6 +131,7 @@ OFF_T max_size = -1;
+@@ -141,6 +141,7 @@ OFF_T max_size = -1;
  OFF_T min_size = -1;
  int ignore_errors = 0;
  int modify_window = 0;
@@ -222,7 +222,7 @@ diff --git a/options.c b/options.c
  int blocking_io = -1;
  int checksum_seed = 0;
  int inplace = 0;
-@@ -784,6 +785,8 @@ static struct poptOption long_options[] = {
+@@ -796,6 +797,8 @@ static struct poptOption long_options[] = {
    {"read-batch",       0,  POPT_ARG_STRING, &batch_name, OPT_READ_BATCH, 0, 0 },
    {"write-batch",      0,  POPT_ARG_STRING, &batch_name, OPT_WRITE_BATCH, 0, 0 },
    {"only-write-batch", 0,  POPT_ARG_STRING, &batch_name, OPT_ONLY_WRITE_BATCH, 0, 0 },
@@ -231,7 +231,7 @@ diff --git a/options.c b/options.c
    {"files-from",       0,  POPT_ARG_STRING, &files_from, 0, 0, 0 },
    {"from0",           '0', POPT_ARG_VAL,    &eol_nulls, 1, 0, 0},
    {"no-from0",         0,  POPT_ARG_VAL,    &eol_nulls, 0, 0, 0},
-@@ -2865,6 +2868,9 @@ void server_options(char **args, int *argc_p)
+@@ -2883,6 +2886,9 @@ void server_options(char **args, int *argc_p)
  		args[ac++] = arg;
  	}
  
@@ -244,7 +244,7 @@ diff --git a/options.c b/options.c
 diff --git a/rsync.1.md b/rsync.1.md
 --- a/rsync.1.md
 +++ b/rsync.1.md
-@@ -528,6 +528,7 @@ has its own detailed description later in this manpage.
+@@ -529,6 +529,7 @@ has its own detailed description later in this manpage.
  --secluded-args, -s      use the protocol to safely send the args
  --trust-sender           trust the remote sender's file list
  --copy-as=USER[:GROUP]   specify user & optional group for the copy
@@ -252,7 +252,7 @@ diff --git a/rsync.1.md b/rsync.1.md
  --address=ADDRESS        bind address for outgoing socket to daemon
  --port=PORT              specify double-colon alternate port number
  --sockopts=OPTIONS       specify custom TCP options
-@@ -2583,6 +2584,12 @@ expand it.
+@@ -2584,6 +2585,12 @@ expand it.
  
      >     sudo rsync -aive lsh -M--copy-as=joe src/ lh:dest/
  
@@ -268,7 +268,7 @@ diff --git a/rsync.1.md b/rsync.1.md
 diff --git a/t_stub.c b/t_stub.c
 --- a/t_stub.c
 +++ b/t_stub.c
-@@ -34,6 +34,7 @@ int preserve_perms = 0;
+@@ -36,6 +36,7 @@ int preserve_perms = 0;
  int preserve_executability = 0;
  int omit_link_times = 0;
  int open_noatime = 0;
@@ -286,4 +286,4 @@ diff --git a/wildtest.c b/wildtest.c
 +int ignore_case = 0;
  int wildmatch_errors = 0;
  
- typedef char bool;
+ #if !defined(__STDC_VERSION__) || __STDC_VERSION__ < 202311L

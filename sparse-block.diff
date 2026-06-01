@@ -18,7 +18,7 @@ To use this patch, run these commands for a successful build:
     ./configure                               (optional if already run)
     make
 
-based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
+based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
 diff --git a/fileio.c b/fileio.c
 --- a/fileio.c
 +++ b/fileio.c
@@ -50,7 +50,7 @@ diff --git a/options.c b/options.c
  int preallocate_files = 0;
  int do_compression = 0;
  int do_compression_level = CLVL_NOT_SPECIFIED;
-@@ -702,6 +703,7 @@ static struct poptOption long_options[] = {
+@@ -712,6 +713,7 @@ static struct poptOption long_options[] = {
    {"sparse",          'S', POPT_ARG_VAL,    &sparse_files, 1, 0, 0 },
    {"no-sparse",        0,  POPT_ARG_VAL,    &sparse_files, 0, 0, 0 },
    {"no-S",             0,  POPT_ARG_VAL,    &sparse_files, 0, 0, 0 },
@@ -58,7 +58,7 @@ diff --git a/options.c b/options.c
    {"preallocate",      0,  POPT_ARG_NONE,   &preallocate_files, 0, 0, 0},
    {"inplace",          0,  POPT_ARG_VAL,    &inplace, 1, 0, 0 },
    {"no-inplace",       0,  POPT_ARG_VAL,    &inplace, 0, 0, 0 },
-@@ -2772,6 +2774,12 @@ void server_options(char **args, int *argc_p)
+@@ -2790,6 +2792,12 @@ void server_options(char **args, int *argc_p)
  		args[ac++] = arg;
  	}
  
@@ -82,7 +82,7 @@ diff --git a/rsync.1.md b/rsync.1.md
  --preallocate            allocate dest files before writing them
  --dry-run, -n            perform a trial run with no changes made
  --whole-file, -W         copy files whole (w/o delta-xfer algorithm)
-@@ -1730,6 +1731,18 @@ expand it.
+@@ -1731,6 +1732,18 @@ expand it.
      (as opposed to allocated sequences of null bytes) if the kernel version and
      filesystem type support creating holes in the allocated data.
  
