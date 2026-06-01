@@ -38,7 +38,7 @@ TODO:
   a file that can't use it, while missing out on giving it to a file
   that could use it.
 
-based-on: 6c8ca91c731b7bf2b081694bda85b7dadc2b7aff
+based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
 diff --git a/backup.c b/backup.c
 --- a/backup.c
 +++ b/backup.c
@@ -195,7 +195,7 @@ diff --git a/flist.c b/flist.c
  static void send_directory(int f, struct file_list *flist,
  			   char *fbuf, int len, int flags);
  
-@@ -2722,6 +2764,23 @@ struct file_list *recv_file_list(int f, int dir_ndx)
+@@ -2735,6 +2777,23 @@ struct file_list *recv_file_list(int f, int dir_ndx)
  	 * for a non-relative transfer in recv_file_entry(). */
  	flist_sort_and_clean(flist, relative_paths);
  
@@ -206,7 +206,7 @@ diff --git a/flist.c b/flist.c
 +		memcpy(the_fattr_list.files, flist->files,
 +		       j * sizeof (struct file_struct *));
 +		qsort(the_fattr_list.files, j,
-+		      sizeof the_fattr_list.files[0], (int (*)())fattr_compare);
++		      sizeof the_fattr_list.files[0], (int (*)(const void *, const void *))fattr_compare);
 +		the_fattr_list.low = 0;
 +		while (j-- > 0) {
 +			struct file_struct *fp = the_fattr_list.files[j];
@@ -646,7 +646,7 @@ diff --git a/options.c b/options.c
 diff --git a/receiver.c b/receiver.c
 --- a/receiver.c
 +++ b/receiver.c
-@@ -220,7 +220,7 @@ int open_tmpfile(char *fnametmp, const char *fname, struct file_struct *file)
+@@ -221,7 +221,7 @@ int open_tmpfile(char *fnametmp, const char *fname, struct file_struct *file)
  	 * information should have been previously transferred, but that may
  	 * not be the case with -R */
  	if (fd == -1 && relative_paths && errno == ENOENT
@@ -692,7 +692,7 @@ diff --git a/rsync.1.md b/rsync.1.md
 diff --git a/rsync.h b/rsync.h
 --- a/rsync.h
 +++ b/rsync.h
-@@ -286,7 +286,7 @@ enum filetype {
+@@ -287,7 +287,7 @@ enum filetype {
  #define NDX_DEL_STATS -3
  #define NDX_FLIST_OFFSET -101
  
@@ -701,7 +701,7 @@ diff --git a/rsync.h b/rsync.h
  #define DEL_NO_UID_WRITE 	(1<<0) /* file/dir has our uid w/o write perm */
  #define DEL_RECURSE		(1<<1) /* if dir, delete all contents */
  #define DEL_DIR_IS_EMPTY	(1<<2) /* internal delete_FUNCTIONS use only */
-@@ -296,6 +296,7 @@ enum filetype {
+@@ -297,6 +297,7 @@ enum filetype {
  #define DEL_FOR_DEVICE		(1<<6) /* making room for a replacement device */
  #define DEL_FOR_SPECIAL 	(1<<7) /* making room for a replacement special */
  #define DEL_FOR_BACKUP	 	(1<<8) /* the delete is for a backup operation */

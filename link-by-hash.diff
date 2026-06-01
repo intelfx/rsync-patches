@@ -12,7 +12,7 @@ To use this patch, run these commands for a successful build:
     ./configure
     make
 
-based-on: 6c8ca91c731b7bf2b081694bda85b7dadc2b7aff
+based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
 diff --git a/Makefile.in b/Makefile.in
 --- a/Makefile.in
 +++ b/Makefile.in
@@ -24,7 +24,7 @@ diff --git a/Makefile.in b/Makefile.in
 +OBJS3=progress.o pipe.o hashlink.o @MD5_ASM@ @ROLL_SIMD@ @ROLL_ASM@
  DAEMON_OBJ = params.o loadparm.o clientserver.o access.o connection.o authenticate.o
  popt_OBJS=popt/findme.o  popt/popt.o  popt/poptconfig.o \
- 	popt/popthelp.o popt/poptparse.o
+ 	popt/popthelp.o popt/poptparse.o popt/poptint.o
 diff --git a/checksum.c b/checksum.c
 --- a/checksum.c
 +++ b/checksum.c
@@ -107,6 +107,7 @@ diff --git a/daemon-parm.txt b/daemon-parm.txt
  STRING	log_format		"%o %h [%a] %m (%u) %f %l"
 diff --git a/hashlink.c b/hashlink.c
 new file mode 100644
+index 00000000..fef89dd1
 --- /dev/null
 +++ b/hashlink.c
 @@ -0,0 +1,92 @@
@@ -373,7 +374,7 @@ diff --git a/rsync.c b/rsync.c
  extern int sanitize_paths;
  extern struct file_list *cur_flist, *first_flist, *dir_flist;
  extern struct chmod_mode_struct *daemon_chmod_modes;
-@@ -760,6 +761,10 @@ int finish_transfer(const char *fname, const char *fnametmp,
+@@ -763,6 +764,10 @@ int finish_transfer(const char *fname, const char *fnametmp,
  	}
  	if (ret == 0) {
  		/* The file was moved into place (not copied), so it's done. */
@@ -387,7 +388,7 @@ diff --git a/rsync.c b/rsync.c
 diff --git a/rsync.h b/rsync.h
 --- a/rsync.h
 +++ b/rsync.h
-@@ -1446,7 +1446,8 @@ extern short info_levels[], debug_levels[];
+@@ -1449,7 +1449,8 @@ extern short info_levels[], debug_levels[];
  #define DEBUG_FUZZY (DEBUG_FLIST+1)
  #define DEBUG_GENR (DEBUG_FUZZY+1)
  #define DEBUG_HASH (DEBUG_GENR+1)

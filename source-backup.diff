@@ -9,7 +9,7 @@ To use this patch, run these commands for a successful build:
 
 -- Matt McCutchen <hashproduct@gmail.com>
 
-based-on: 6c8ca91c731b7bf2b081694bda85b7dadc2b7aff
+based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
 diff --git a/options.c b/options.c
 --- a/options.c
 +++ b/options.c
@@ -70,7 +70,7 @@ diff --git a/rsync.1.md b/rsync.1.md
 diff --git a/sender.c b/sender.c
 --- a/sender.c
 +++ b/sender.c
-@@ -44,6 +44,7 @@ extern int protocol_version;
+@@ -45,6 +45,7 @@ extern int protocol_version;
  extern int remove_source_files;
  extern int updating_basis_file;
  extern int make_backups;
@@ -78,7 +78,7 @@ diff --git a/sender.c b/sender.c
  extern int inplace;
  extern int inplace_partial;
  extern int batch_fd;
-@@ -131,6 +132,7 @@ void successful_send(int ndx)
+@@ -133,6 +134,7 @@ void successful_send(int ndx)
  	struct file_struct *file;
  	struct file_list *flist;
  	STRUCT_STAT st;
@@ -86,7 +86,7 @@ diff --git a/sender.c b/sender.c
  
  	if (!remove_source_files)
  		return;
-@@ -162,7 +164,11 @@ void successful_send(int ndx)
+@@ -164,7 +166,11 @@ void successful_send(int ndx)
  		return;
  	}
  

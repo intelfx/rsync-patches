@@ -12,7 +12,7 @@ TODO:
  - Make this code handle multibyte character encodings, and honor the
    --iconv setting when converting case.
 
-based-on: 6c8ca91c731b7bf2b081694bda85b7dadc2b7aff
+based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
 diff --git a/exclude.c b/exclude.c
 --- a/exclude.c
 +++ b/exclude.c
@@ -48,7 +48,7 @@ diff --git a/flist.c b/flist.c
  extern int ignore_errors;
  extern int numeric_ids;
  extern int quiet;
-@@ -2638,7 +2639,8 @@ struct file_list *recv_file_list(int f, int dir_ndx)
+@@ -2651,7 +2652,8 @@ struct file_list *recv_file_list(int f, int dir_ndx)
  				cur_dir++;
  			if (cur_dir != good_dirname) {
  				const char *d = dir_ndx >= 0 ? f_name(dir_flist->files[dir_ndx], NULL) : empty_dir;
@@ -58,7 +58,7 @@ diff --git a/flist.c b/flist.c
  					rprintf(FERROR,
  						"ABORTING due to invalid path from sender: %s/%s\n",
  						cur_dir, file->basename);
-@@ -3205,6 +3207,7 @@ int f_name_cmp(const struct file_struct *f1, const struct file_struct *f2)
+@@ -3218,6 +3220,7 @@ int f_name_cmp(const struct file_struct *f1, const struct file_struct *f2)
  {
  	int dif;
  	const uchar *c1, *c2;
@@ -66,7 +66,7 @@ diff --git a/flist.c b/flist.c
  	enum fnc_state state1, state2;
  	enum fnc_type type1, type2;
  	enum fnc_type t_path = protocol_version >= 29 ? t_PATH : t_ITEM;
-@@ -3315,7 +3318,15 @@ int f_name_cmp(const struct file_struct *f1, const struct file_struct *f2)
+@@ -3328,7 +3331,15 @@ int f_name_cmp(const struct file_struct *f1, const struct file_struct *f2)
  			if (type1 != type2)
  				return type1 == t_PATH ? 1 : -1;
  		}

@@ -10,7 +10,7 @@ To use this patch, run these commands for a successful build:
 TODO: the configure changes should abort if the user requests --enable-slp
 and we can't honor that request.
 
-based-on: 6c8ca91c731b7bf2b081694bda85b7dadc2b7aff
+based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
 diff --git a/Makefile.in b/Makefile.in
 --- a/Makefile.in
 +++ b/Makefile.in
@@ -30,7 +30,7 @@ diff --git a/Makefile.in b/Makefile.in
 -DAEMON_OBJ = params.o loadparm.o clientserver.o access.o connection.o authenticate.o
 +DAEMON_OBJ = params.o loadparm.o clientserver.o access.o connection.o authenticate.o $(SLPOBJ)
  popt_OBJS=popt/findme.o  popt/popt.o  popt/poptconfig.o \
- 	popt/popthelp.o popt/poptparse.o
+ 	popt/popthelp.o popt/poptparse.o popt/poptint.o
  OBJS=$(OBJS1) $(OBJS2) $(OBJS3) $(DAEMON_OBJ) $(LIBOBJ) @BUILD_ZLIB@ @BUILD_POPT@
 @@ -103,7 +105,7 @@ install-strip:
  	$(MAKE) INSTALL_STRIP='-s' install
@@ -61,7 +61,7 @@ diff --git a/clientserver.c b/clientserver.c
 diff --git a/configure.ac b/configure.ac
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1047,6 +1047,29 @@ if test $rsync_cv_can_hardlink_special = yes; then
+@@ -1067,6 +1067,29 @@ if test $rsync_cv_can_hardlink_special = yes; then
      AC_DEFINE(CAN_HARDLINK_SPECIAL, 1, [Define to 1 if link() can hard-link special files.])
  fi
  
@@ -156,7 +156,7 @@ diff --git a/rsync.1.md b/rsync.1.md
 diff --git a/rsync.h b/rsync.h
 --- a/rsync.h
 +++ b/rsync.h
-@@ -234,6 +234,10 @@
+@@ -235,6 +235,10 @@
  #define SIGNIFICANT_ITEM_FLAGS (~(\
  	ITEM_BASIS_TYPE_FOLLOWS | ITEM_XNAME_FOLLOWS | ITEM_LOCAL_CHANGE))
  
@@ -169,6 +169,7 @@ diff --git a/rsync.h b/rsync.h
  #define CFN_DROP_TRAILING_DOT_DIR (1<<2)
 diff --git a/rsyncd.conf b/rsyncd.conf
 new file mode 100644
+index 00000000..bf9aa84c
 --- /dev/null
 +++ b/rsyncd.conf
 @@ -0,0 +1 @@
@@ -198,7 +199,7 @@ diff --git a/rsyncd.conf.5.md b/rsyncd.conf.5.md
  You may also include any [MODULE PARAMETERS](#) in the global part of the
  config file, in which case the supplied value will override the default for
  that parameter.
-@@ -1208,6 +1223,7 @@ A more sophisticated example would be:
+@@ -1211,6 +1226,7 @@ A more sophisticated example would be:
  > max connections = 4
  > syslog facility = local5
  > pid file = /var/run/rsyncd.pid
@@ -274,6 +275,7 @@ diff --git a/socket.c b/socket.c
  		for (i = 0, fd = -1; sp[i] >= 0; i++) {
 diff --git a/srvloc.c b/srvloc.c
 new file mode 100644
+index 00000000..99eea163
 --- /dev/null
 +++ b/srvloc.c
 @@ -0,0 +1,103 @@
@@ -382,6 +384,7 @@ new file mode 100644
 +}
 diff --git a/srvreg.c b/srvreg.c
 new file mode 100644
+index 00000000..d93a3722
 --- /dev/null
 +++ b/srvreg.c
 @@ -0,0 +1,128 @@

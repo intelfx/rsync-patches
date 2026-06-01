@@ -13,12 +13,12 @@ To use this patch, run these commands for a successful build:
     ./configure                         (optional if already run)
     make
 
-based-on: 6c8ca91c731b7bf2b081694bda85b7dadc2b7aff
+based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
 diff --git a/Makefile.in b/Makefile.in
 --- a/Makefile.in
 +++ b/Makefile.in
 @@ -53,7 +53,7 @@ popt_OBJS=popt/findme.o  popt/popt.o  popt/poptconfig.o \
- 	popt/popthelp.o popt/poptparse.o
+ 	popt/popthelp.o popt/poptparse.o popt/poptint.o
  OBJS=$(OBJS1) $(OBJS2) $(OBJS3) $(DAEMON_OBJ) $(LIBOBJ) @BUILD_ZLIB@ @BUILD_POPT@
  
 -TLS_OBJ = tls.o syscall.o util2.o t_stub.o lib/compat.o lib/snprintf.o lib/permstring.o lib/sysxattrs.o @BUILD_POPT@
@@ -159,7 +159,7 @@ diff --git a/rsync.1.md b/rsync.1.md
 diff --git a/rsync.h b/rsync.h
 --- a/rsync.h
 +++ b/rsync.h
-@@ -175,6 +175,11 @@
+@@ -176,6 +176,11 @@
  #define COMPARE_DEST 1
  #define COPY_DEST 2
  #define LINK_DEST 3
@@ -174,7 +174,7 @@ diff --git a/rsync.h b/rsync.h
 diff --git a/syscall.c b/syscall.c
 --- a/syscall.c
 +++ b/syscall.c
-@@ -146,6 +146,54 @@ int do_link(const char *old_path, const char *new_path)
+@@ -150,6 +150,54 @@ int do_link(const char *old_path, const char *new_path)
  }
  #endif
  
@@ -243,11 +243,12 @@ diff --git a/t_stub.c b/t_stub.c
 diff --git a/t_unsafe.c b/t_unsafe.c
 --- a/t_unsafe.c
 +++ b/t_unsafe.c
-@@ -28,7 +28,6 @@ int am_root = 0;
- int am_sender = 1;
- int read_only = 0;
- int list_only = 0;
--short info_levels[COUNT_INFO], debug_levels[COUNT_DEBUG];
+@@ -31,8 +31,6 @@ int list_only = 0;
+ int copy_links = 0;
+ int copy_unsafe_links = 0;
  
+-short info_levels[COUNT_INFO], debug_levels[COUNT_DEBUG];
+-
  int
  main(int argc, char **argv)
+ {

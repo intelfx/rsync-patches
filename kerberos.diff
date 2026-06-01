@@ -9,7 +9,7 @@ To use this patch, run these commands for a successful build:
     ./configure
     make
 
-based-on: 6c8ca91c731b7bf2b081694bda85b7dadc2b7aff
+based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
 diff --git a/Makefile.in b/Makefile.in
 --- a/Makefile.in
 +++ b/Makefile.in
@@ -21,7 +21,7 @@ diff --git a/Makefile.in b/Makefile.in
 +OBJS3=progress.o pipe.o gss-auth.o @MD5_ASM@ @ROLL_SIMD@ @ROLL_ASM@
  DAEMON_OBJ = params.o loadparm.o clientserver.o access.o connection.o authenticate.o
  popt_OBJS=popt/findme.o  popt/popt.o  popt/poptconfig.o \
- 	popt/popthelp.o popt/poptparse.o
+ 	popt/popthelp.o popt/poptparse.o popt/poptint.o
 diff --git a/clientserver.c b/clientserver.c
 --- a/clientserver.c
 +++ b/clientserver.c
@@ -78,7 +78,7 @@ diff --git a/clientserver.c b/clientserver.c
 diff --git a/configure.ac b/configure.ac
 --- a/configure.ac
 +++ b/configure.ac
-@@ -979,6 +979,31 @@ if test x"$enable_iconv" != x"no"; then
+@@ -999,6 +999,31 @@ if test x"$enable_iconv" != x"no"; then
  	AC_DEFINE(UTF8_CHARSET, "UTF-8", [String to pass to iconv() for the UTF-8 charset.])
  fi
  
@@ -123,9 +123,10 @@ diff --git a/daemon-parm.txt b/daemon-parm.txt
  BOOL3	munge_symlinks		Unset
 diff --git a/gss-auth.c b/gss-auth.c
 new file mode 100644
+index 00000000..9ac93834
 --- /dev/null
 +++ b/gss-auth.c
-@@ -0,0 +1,334 @@
+@@ -0,0 +1,335 @@
 +/*
 + * GSSAPI authentication.
 + *
@@ -148,6 +149,7 @@ new file mode 100644
 + */
 +
 +#include "rsync.h"
++#include "ifuncs.h"
 +
 +#ifdef GSSAPI_OPTION
 +
@@ -475,7 +477,7 @@ diff --git a/main.c b/main.c
 diff --git a/rsync.h b/rsync.h
 --- a/rsync.h
 +++ b/rsync.h
-@@ -529,6 +529,15 @@ enum delret {
+@@ -530,6 +530,15 @@ enum delret {
  #define iconv_t int
  #endif
  

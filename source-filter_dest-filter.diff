@@ -30,7 +30,7 @@ To use this patch, run these commands for a successful build:
     ./configure                                (optional if already run)
     make
 
-based-on: 6c8ca91c731b7bf2b081694bda85b7dadc2b7aff
+based-on: e3ee0e7319eb4250ddb76b716510fd20441da329
 diff --git a/generator.c b/generator.c
 --- a/generator.c
 +++ b/generator.c
@@ -243,7 +243,7 @@ diff --git a/receiver.c b/receiver.c
  extern char *partial_dir;
  extern char *basis_dir[MAX_BASIS_DIRS+1];
  extern char sender_file_sum[MAX_DIGEST_LEN];
-@@ -528,6 +529,7 @@ int recv_files(int f_in, int f_out, char *local_name)
+@@ -529,6 +530,7 @@ int recv_files(int f_in, int f_out, char *local_name)
  	char *fnametmp, fnametmpbuf[MAXPATHLEN];
  	char *fnamecmp, *partialptr;
  	char fnamecmpbuf[MAXPATHLEN];
@@ -251,7 +251,7 @@ diff --git a/receiver.c b/receiver.c
  	uchar fnamecmp_type;
  	struct file_struct *file;
  	int itemizing = am_server ? logfile_format_has_i : stdout_format_has_i;
-@@ -538,6 +540,7 @@ int recv_files(int f_in, int f_out, char *local_name)
+@@ -539,6 +541,7 @@ int recv_files(int f_in, int f_out, char *local_name)
  	const char *parent_dirname = "";
  #endif
  	int ndx, recv_ok, one_inplace;
@@ -259,7 +259,7 @@ diff --git a/receiver.c b/receiver.c
  
  	if (DEBUG_GTE(RECV, 1))
  		rprintf(FINFO, "recv_files(%d) starting\n", cur_flist->used);
-@@ -548,6 +551,23 @@ int recv_files(int f_in, int f_out, char *local_name)
+@@ -549,6 +552,23 @@ int recv_files(int f_in, int f_out, char *local_name)
  	if (whole_file < 0)
  		whole_file = 0;
  
@@ -283,7 +283,7 @@ diff --git a/receiver.c b/receiver.c
  	progress_init();
  
  	while (1) {
-@@ -873,6 +893,9 @@ int recv_files(int f_in, int f_out, char *local_name)
+@@ -888,6 +908,9 @@ int recv_files(int f_in, int f_out, char *local_name)
  		else if (!am_server && INFO_GTE(NAME, 1) && INFO_EQ(PROGRESS, 1))
  			rprintf(FINFO, "%s\n", fname);
  
@@ -293,7 +293,7 @@ diff --git a/receiver.c b/receiver.c
  		/* recv file data */
  		recv_ok = receive_data(f_in, fnamecmp, fd1, st.st_size, fname, fd2, file, inplace || one_inplace);
  
-@@ -888,6 +911,16 @@ int recv_files(int f_in, int f_out, char *local_name)
+@@ -903,6 +926,16 @@ int recv_files(int f_in, int f_out, char *local_name)
  			exit_cleanup(RERR_FILEIO);
  		}
  
@@ -370,7 +370,7 @@ diff --git a/rsync.1.md b/rsync.1.md
 diff --git a/rsync.h b/rsync.h
 --- a/rsync.h
 +++ b/rsync.h
-@@ -169,6 +169,7 @@
+@@ -170,6 +170,7 @@
  #define IOERR_DEL_LIMIT (1<<2)
  
  #define MAX_ARGS 1000
@@ -389,7 +389,7 @@ diff --git a/sender.c b/sender.c
  
  extern int do_xfers;
  extern int am_server;
-@@ -50,6 +51,7 @@ extern int batch_fd;
+@@ -51,6 +52,7 @@ extern int batch_fd;
  extern int write_batch;
  extern int file_old_total;
  extern BOOL want_progress_now;
@@ -397,7 +397,7 @@ diff --git a/sender.c b/sender.c
  extern struct stats stats;
  extern struct file_list *cur_flist, *first_flist, *dir_flist;
  extern char num_dev_ino_buf[4 + 8 + 8];
-@@ -211,6 +213,26 @@ void send_files(int f_in, int f_out)
+@@ -213,6 +215,26 @@ void send_files(int f_in, int f_out)
  	int f_xfer = write_batch < 0 ? batch_fd : f_out;
  	int save_io_error = io_error;
  	int ndx, j;
@@ -424,15 +424,15 @@ diff --git a/sender.c b/sender.c
  
  	if (DEBUG_GTE(SEND, 1))
  		rprintf(FINFO, "send_files starting\n");
-@@ -348,6 +370,7 @@ void send_files(int f_in, int f_out)
+@@ -350,6 +372,7 @@ void send_files(int f_in, int f_out)
  			exit_cleanup(RERR_PROTOCOL);
  		}
  
 +		unlink_tmp = 0;
- 		fd = do_open(fname, O_RDONLY, 0);
+ 		fd = do_open_checklinks(fname);
  		if (fd == -1) {
  			if (errno == ENOENT) {
-@@ -367,6 +390,33 @@ void send_files(int f_in, int f_out)
+@@ -369,6 +392,33 @@ void send_files(int f_in, int f_out)
  			continue;
  		}
  
@@ -466,7 +466,7 @@ diff --git a/sender.c b/sender.c
  		/* map the local file */
  		if (do_fstat(fd, &st) != 0) {
  			io_error |= IOERR_GENERAL;
-@@ -437,6 +487,8 @@ void send_files(int f_in, int f_out)
+@@ -439,6 +489,8 @@ void send_files(int f_in, int f_out)
  			}
  		}
  		close(fd);
