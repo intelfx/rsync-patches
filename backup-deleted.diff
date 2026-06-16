@@ -7,11 +7,11 @@ To use this patch, run these commands for a successful build:
     ./configure                                 (optional if already run)
     make
 
-based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
+based-on: f26f747b8017b321d3776becc69f330dd889fa21
 diff --git a/generator.c b/generator.c
 --- a/generator.c
 +++ b/generator.c
-@@ -1852,7 +1852,7 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
+@@ -1859,7 +1859,7 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
  		goto notify_others;
  
  	if (read_batch || whole_file) {
@@ -20,7 +20,7 @@ diff --git a/generator.c b/generator.c
  			if (!(backupptr = get_backup_name(fname)))
  				goto cleanup;
  			if (!(back_file = make_file(fname, NULL, NULL, 0, NO_FILTERS)))
-@@ -1888,7 +1888,7 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
+@@ -1895,7 +1895,7 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
  		goto notify_others;
  	}
  
@@ -29,7 +29,7 @@ diff --git a/generator.c b/generator.c
  		if (!(backupptr = get_backup_name(fname))) {
  			goto cleanup;
  		}
-@@ -2008,7 +2008,7 @@ int atomic_create(struct file_struct *file, char *fname, const char *slnk, const
+@@ -2015,7 +2015,7 @@ int atomic_create(struct file_struct *file, char *fname, const char *slnk, const
  		skip_atomic = 0;
  
  	if (del_for_flag) {
@@ -65,7 +65,7 @@ diff --git a/options.c b/options.c
 diff --git a/receiver.c b/receiver.c
 --- a/receiver.c
 +++ b/receiver.c
-@@ -448,7 +448,7 @@ static void handle_delayed_updates(char *local_name)
+@@ -535,7 +535,7 @@ static void handle_delayed_updates(char *local_name)
  		struct file_struct *file = cur_flist->files[ndx];
  		fname = local_name ? local_name : f_name(file, NULL);
  		if ((partialptr = partial_dir_fname(fname)) != NULL) {
@@ -74,7 +74,7 @@ diff --git a/receiver.c b/receiver.c
  				continue;
  			if (DEBUG_GTE(RECV, 1)) {
  				rprintf(FINFO, "renaming %s to %s\n",
-@@ -782,7 +782,7 @@ int recv_files(int f_in, int f_out, char *local_name)
+@@ -869,7 +869,7 @@ int recv_files(int f_in, int f_out, char *local_name)
  		} else {
  			/* Reminder: --inplace && --partial-dir are never
  			 * enabled at the same time. */

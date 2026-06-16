@@ -10,7 +10,7 @@ To use this patch, run these commands for a successful build:
 TODO: the configure changes should abort if the user requests --enable-slp
 and we can't honor that request.
 
-based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
+based-on: f26f747b8017b321d3776becc69f330dd889fa21
 diff --git a/Makefile.in b/Makefile.in
 --- a/Makefile.in
 +++ b/Makefile.in
@@ -32,7 +32,7 @@ diff --git a/Makefile.in b/Makefile.in
  popt_OBJS= popt/popt.o  popt/poptconfig.o \
  	popt/popthelp.o popt/poptparse.o popt/poptint.o
  OBJS=$(OBJS1) $(OBJS2) $(OBJS3) $(DAEMON_OBJ) $(LIBOBJ) @BUILD_ZLIB@ @BUILD_POPT@
-@@ -104,7 +106,7 @@ install-strip:
+@@ -111,7 +113,7 @@ install-strip:
  	$(MAKE) INSTALL_STRIP='-s' install
  
  rsync$(EXEEXT): $(OBJS)
@@ -61,7 +61,7 @@ diff --git a/clientserver.c b/clientserver.c
 diff --git a/configure.ac b/configure.ac
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1067,6 +1067,29 @@ if test $rsync_cv_can_hardlink_special = yes; then
+@@ -1089,6 +1089,29 @@ if test $rsync_cv_can_hardlink_special = yes; then
      AC_DEFINE(CAN_HARDLINK_SPECIAL, 1, [Define to 1 if link() can hard-link special files.])
  fi
  
@@ -108,7 +108,7 @@ diff --git a/daemon-parm.txt b/daemon-parm.txt
 diff --git a/main.c b/main.c
 --- a/main.c
 +++ b/main.c
-@@ -1409,6 +1409,22 @@ static int start_client(int argc, char *argv[])
+@@ -1418,6 +1418,22 @@ static int start_client(int argc, char *argv[])
  
  	if (!read_batch) { /* for read_batch, NO source is specified */
  		char *path = check_for_hostspec(argv[0], &shell_machine, &rsync_port);

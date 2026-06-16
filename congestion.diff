@@ -27,7 +27,7 @@ To use this patch, run these commands for a successful build:
     ./configure                         (optional if already run)
     make
 
-based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
+based-on: f26f747b8017b321d3776becc69f330dd889fa21
 diff --git a/daemon-parm.txt b/daemon-parm.txt
 --- a/daemon-parm.txt
 +++ b/daemon-parm.txt

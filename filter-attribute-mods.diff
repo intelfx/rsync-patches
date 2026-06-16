@@ -9,7 +9,7 @@ To use this patch, run these commands for a successful build:
     ./configure                         (optional if already run)
     make
 
-based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
+based-on: f26f747b8017b321d3776becc69f330dd889fa21
 diff --git a/exclude.c b/exclude.c
 --- a/exclude.c
 +++ b/exclude.c
@@ -270,7 +270,7 @@ diff --git a/flist.c b/flist.c
  
  #ifdef ICONV_OPTION
  extern int filesfrom_convert;
-@@ -1270,7 +1271,7 @@ struct file_struct *make_file(const char *fname, struct file_list *flist,
+@@ -1287,7 +1288,7 @@ struct file_struct *make_file(const char *fname, struct file_list *flist,
  	} else if (readlink_stat(thisname, &st, linkname) != 0) {
  		int save_errno = errno;
  		/* See if file is excluded before reporting an error. */
@@ -279,7 +279,7 @@ diff --git a/flist.c b/flist.c
  		 && (is_excluded(thisname, 0, filter_level)
  		  || is_excluded(thisname, 1, filter_level))) {
  			if (ignore_perishable && save_errno != ENOENT)
-@@ -1315,6 +1316,12 @@ struct file_struct *make_file(const char *fname, struct file_list *flist,
+@@ -1332,6 +1333,12 @@ struct file_struct *make_file(const char *fname, struct file_list *flist,
  
  	if (filter_level == NO_FILTERS)
  		goto skip_filters;
@@ -292,7 +292,7 @@ diff --git a/flist.c b/flist.c
  
  	if (S_ISDIR(st.st_mode)) {
  		if (!xfer_dirs) {
-@@ -1547,12 +1554,23 @@ static struct file_struct *send_file_name(int f, struct file_list *flist,
+@@ -1572,12 +1579,23 @@ static struct file_struct *send_file_name(int f, struct file_list *flist,
  					  int flags, int filter_level)
  {
  	struct file_struct *file;
@@ -317,7 +317,7 @@ diff --git a/flist.c b/flist.c
  		file->mode = tweak_mode(file->mode, chmod_modes);
  
  	if (f >= 0) {
-@@ -2454,7 +2472,7 @@ struct file_list *send_file_list(int f, int argc, char *argv[])
+@@ -2478,7 +2496,7 @@ struct file_list *send_file_list(int f, int argc, char *argv[])
  			struct file_struct *file;
  			file = send_file_name(f, flist, fbuf, &st,
  					      FLAG_TOP_DIR | FLAG_CONTENT_DIR | flags,
@@ -326,7 +326,7 @@ diff --git a/flist.c b/flist.c
  			if (!file)
  				continue;
  			if (inc_recurse) {
-@@ -2468,7 +2486,7 @@ struct file_list *send_file_list(int f, int argc, char *argv[])
+@@ -2492,7 +2510,7 @@ struct file_list *send_file_list(int f, int argc, char *argv[])
  			} else
  				send_if_directory(f, flist, file, fbuf, len, flags);
  		} else

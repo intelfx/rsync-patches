@@ -10,7 +10,7 @@ To use this patch, run these commands for a successful build:
     ./configure                                 (optional if already run)
     make
 
-based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
+based-on: f26f747b8017b321d3776becc69f330dd889fa21
 diff --git a/flist.c b/flist.c
 --- a/flist.c
 +++ b/flist.c
@@ -31,7 +31,7 @@ diff --git a/flist.c b/flist.c
  #define NORMAL_NAME 0
  #define SLASH_ENDING_NAME 1
  #define DOTDIR_NAME 2
-@@ -679,6 +682,23 @@ static void send_file_entry(int f, const char *fname, struct file_struct *file,
+@@ -691,6 +694,23 @@ static void send_file_entry(int f, const char *fname, struct file_struct *file,
  		stats.total_size += F_LENGTH(file);
  }
  
@@ -55,7 +55,7 @@ diff --git a/flist.c b/flist.c
  static struct file_struct *recv_file_entry(int f, struct file_list *flist, int xflags)
  {
  	static int64 modtime, atime;
-@@ -750,9 +770,13 @@ static struct file_struct *recv_file_entry(int f, struct file_list *flist, int x
+@@ -762,9 +782,13 @@ static struct file_struct *recv_file_entry(int f, struct file_list *flist, int x
  			outbuf.len = 0;
  		}
  		thisname[outbuf.len] = '\0';
@@ -69,7 +69,7 @@ diff --git a/flist.c b/flist.c
  	if (*thisname
  	 && (clean_fname(thisname, CFN_REFUSE_DOT_DOT_DIRS) < 0 || (!relative_paths && *thisname == '/'))) {
  		rprintf(FERROR, "ABORTING due to unsafe pathname from sender: %s\n", thisname);
-@@ -2586,6 +2610,15 @@ struct file_list *recv_file_list(int f, int dir_ndx)
+@@ -2610,6 +2634,15 @@ struct file_list *recv_file_list(int f, int dir_ndx)
  			parse_name_map(usermap, True);
  		if (groupmap)
  			parse_name_map(groupmap, False);

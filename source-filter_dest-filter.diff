@@ -30,19 +30,19 @@ To use this patch, run these commands for a successful build:
     ./configure                                (optional if already run)
     make
 
-based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
+based-on: f26f747b8017b321d3776becc69f330dd889fa21
 diff --git a/generator.c b/generator.c
 --- a/generator.c
 +++ b/generator.c
-@@ -67,6 +67,7 @@ extern int append_mode;
- extern int make_backups;
+@@ -68,6 +68,7 @@ extern int make_backups;
  extern int csum_length;
+ extern int xfer_sum_len;
  extern int ignore_times;
 +extern int times_only;
  extern int size_only;
  extern OFF_T max_size;
  extern OFF_T min_size;
-@@ -624,7 +625,7 @@ int quick_check_ok(enum filetype ftype, const char *fn, struct file_struct *file
+@@ -625,7 +626,7 @@ int quick_check_ok(enum filetype ftype, const char *fn, struct file_struct *file
  {
  	switch (ftype) {
  	  case FT_REG:
@@ -243,7 +243,7 @@ diff --git a/receiver.c b/receiver.c
  extern char *partial_dir;
  extern char *basis_dir[MAX_BASIS_DIRS+1];
  extern char sender_file_sum[MAX_DIGEST_LEN];
-@@ -552,6 +553,7 @@ int recv_files(int f_in, int f_out, char *local_name)
+@@ -639,6 +640,7 @@ int recv_files(int f_in, int f_out, char *local_name)
  	char *fnametmp, fnametmpbuf[MAXPATHLEN];
  	char *fnamecmp, *partialptr;
  	char fnamecmpbuf[MAXPATHLEN];
@@ -251,7 +251,7 @@ diff --git a/receiver.c b/receiver.c
  	uchar fnamecmp_type;
  	struct file_struct *file;
  	int itemizing = am_server ? logfile_format_has_i : stdout_format_has_i;
-@@ -562,6 +564,7 @@ int recv_files(int f_in, int f_out, char *local_name)
+@@ -649,6 +651,7 @@ int recv_files(int f_in, int f_out, char *local_name)
  	const char *parent_dirname = "";
  #endif
  	int ndx, recv_ok, one_inplace;
@@ -259,7 +259,7 @@ diff --git a/receiver.c b/receiver.c
  
  	if (DEBUG_GTE(RECV, 1))
  		rprintf(FINFO, "recv_files(%d) starting\n", cur_flist->used);
-@@ -572,6 +575,23 @@ int recv_files(int f_in, int f_out, char *local_name)
+@@ -659,6 +662,23 @@ int recv_files(int f_in, int f_out, char *local_name)
  	if (whole_file < 0)
  		whole_file = 0;
  
@@ -283,7 +283,7 @@ diff --git a/receiver.c b/receiver.c
  	progress_init();
  
  	while (1) {
-@@ -923,6 +943,9 @@ int recv_files(int f_in, int f_out, char *local_name)
+@@ -1011,6 +1031,9 @@ int recv_files(int f_in, int f_out, char *local_name)
  		else if (!am_server && INFO_GTE(NAME, 1) && INFO_EQ(PROGRESS, 1))
  			rprintf(FINFO, "%s\n", fname);
  
@@ -293,7 +293,7 @@ diff --git a/receiver.c b/receiver.c
  		/* recv file data */
  		recv_ok = receive_data(f_in, fnamecmp, fd1, st.st_size, fname, fd2, file, inplace || one_inplace);
  
-@@ -938,6 +961,16 @@ int recv_files(int f_in, int f_out, char *local_name)
+@@ -1026,6 +1049,16 @@ int recv_files(int f_in, int f_out, char *local_name)
  			exit_cleanup(RERR_FILEIO);
  		}
  
@@ -432,7 +432,7 @@ diff --git a/sender.c b/sender.c
  		if (use_secure_symlinks) {
  			/* Open from module root to prevent TOCTOU race where
  			 * change_pathname's chdir follows a directory symlink.
-@@ -393,6 +416,33 @@ void send_files(int f_in, int f_out)
+@@ -400,6 +423,33 @@ void send_files(int f_in, int f_out)
  			continue;
  		}
  
@@ -466,7 +466,7 @@ diff --git a/sender.c b/sender.c
  		/* map the local file */
  		if (do_fstat(fd, &st) != 0) {
  			io_error |= IOERR_GENERAL;
-@@ -463,6 +513,8 @@ void send_files(int f_in, int f_out)
+@@ -470,6 +520,8 @@ void send_files(int f_in, int f_out)
  			}
  		}
  		close(fd);

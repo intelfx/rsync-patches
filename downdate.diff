@@ -7,7 +7,7 @@ To use this patch, run these commands for a successful build:
     ./configure                                 (optional if already run)
     make
 
-based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
+based-on: f26f747b8017b321d3776becc69f330dd889fa21
 diff --git a/generator.c b/generator.c
 --- a/generator.c
 +++ b/generator.c
@@ -19,7 +19,7 @@ diff --git a/generator.c b/generator.c
  extern int human_readable;
  extern int ignore_existing;
  extern int ignore_non_existing;
-@@ -1722,6 +1723,12 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
+@@ -1729,6 +1730,12 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
  		goto cleanup;
  	}
  
@@ -32,7 +32,7 @@ diff --git a/generator.c b/generator.c
  	fnamecmp_type = FNAMECMP_FNAME;
  
  	if (statret == 0 && !(stype == FT_REG || (write_devices && stype == FT_DEVICE))) {
-@@ -2174,6 +2181,7 @@ void check_for_finished_files(int itemizing, enum logcode code, int check_redo)
+@@ -2181,6 +2188,7 @@ void check_for_finished_files(int itemizing, enum logcode code, int check_redo)
  			ignore_existing = -ignore_existing;
  			ignore_non_existing = -ignore_non_existing;
  			update_only = -update_only;
@@ -40,7 +40,7 @@ diff --git a/generator.c b/generator.c
  			always_checksum = -always_checksum;
  			size_only = -size_only;
  			append_mode = -append_mode;
-@@ -2201,6 +2209,7 @@ void check_for_finished_files(int itemizing, enum logcode code, int check_redo)
+@@ -2208,6 +2216,7 @@ void check_for_finished_files(int itemizing, enum logcode code, int check_redo)
  			ignore_existing = -ignore_existing;
  			ignore_non_existing = -ignore_non_existing;
  			update_only = -update_only;

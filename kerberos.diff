@@ -9,12 +9,12 @@ To use this patch, run these commands for a successful build:
     ./configure
     make
 
-based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
+based-on: f26f747b8017b321d3776becc69f330dd889fa21
 diff --git a/Makefile.in b/Makefile.in
 --- a/Makefile.in
 +++ b/Makefile.in
 @@ -47,7 +47,7 @@ OBJS1=flist.o rsync.o generator.o receiver.o cleanup.o sender.o exclude.o \
- 	util1.o util2.o main.o checksum.o match.o syscall.o log.o backup.o delete.o
+ 	util1.o util2.o main.o checksum.o match.o syscall.o android.o log.o backup.o delete.o
  OBJS2=options.o io.o compat.o hlink.o token.o uidlist.o socket.o hashtable.o \
  	usage.o fileio.o batch.o clientname.o chmod.o acls.o xattrs.o
 -OBJS3=progress.o pipe.o @MD5_ASM@ @ROLL_SIMD@ @ROLL_ASM@
@@ -78,7 +78,7 @@ diff --git a/clientserver.c b/clientserver.c
 diff --git a/configure.ac b/configure.ac
 --- a/configure.ac
 +++ b/configure.ac
-@@ -999,6 +999,31 @@ if test x"$enable_iconv" != x"no"; then
+@@ -1021,6 +1021,31 @@ if test x"$enable_iconv" != x"no"; then
  	AC_DEFINE(UTF8_CHARSET, "UTF-8", [String to pass to iconv() for the UTF-8 charset.])
  fi
  
@@ -465,7 +465,7 @@ index 00000000..9ac93834
 diff --git a/main.c b/main.c
 --- a/main.c
 +++ b/main.c
-@@ -1593,7 +1593,7 @@ static int start_client(int argc, char *argv[])
+@@ -1602,7 +1602,7 @@ static int start_client(int argc, char *argv[])
  	 * remote shell command, we need to do the RSYNCD protocol first */
  	if (daemon_connection) {
  		int tmpret;

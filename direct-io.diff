@@ -10,7 +10,7 @@ To use this patch, run these commands for a successful build:
     ./configure                         (optional if already run)
     make
 
-based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
+based-on: f26f747b8017b321d3776becc69f330dd889fa21
 diff --git a/options.c b/options.c
 --- a/options.c
 +++ b/options.c
@@ -86,7 +86,7 @@ diff --git a/syscall.c b/syscall.c
  		if (fd < 0)
  			return -1;
  		ok = write(fd, lnk, len) == len;
-@@ -681,6 +688,8 @@ int do_open(const char *pathname, int flags, mode_t mode)
+@@ -683,6 +690,8 @@ int do_open(const char *pathname, int flags, mode_t mode)
  	if (open_noatime)
  		flags |= O_NOATIME;
  #endif
@@ -95,7 +95,7 @@ diff --git a/syscall.c b/syscall.c
  
  	return open(pathname, flags | O_BINARY, mode);
  }
-@@ -1610,6 +1619,9 @@ int do_open_nofollow(const char *pathname, int flags)
+@@ -1612,6 +1621,9 @@ int do_open_nofollow(const char *pathname, int flags)
  #endif
  	}
  

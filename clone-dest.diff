@@ -13,7 +13,7 @@ To use this patch, run these commands for a successful build:
     ./configure                         (optional if already run)
     make
 
-based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
+based-on: f26f747b8017b321d3776becc69f330dd889fa21
 diff --git a/Makefile.in b/Makefile.in
 --- a/Makefile.in
 +++ b/Makefile.in
@@ -21,24 +21,24 @@ diff --git a/Makefile.in b/Makefile.in
  	popt/popthelp.o popt/poptparse.o popt/poptint.o
  OBJS=$(OBJS1) $(OBJS2) $(OBJS3) $(DAEMON_OBJ) $(LIBOBJ) @BUILD_ZLIB@ @BUILD_POPT@
  
--TLS_OBJ = tls.o syscall.o util2.o t_stub.o lib/compat.o lib/snprintf.o lib/permstring.o lib/sysxattrs.o @BUILD_POPT@
-+TLS_OBJ = tls.o syscall.o util1.o util2.o t_stub.o lib/compat.o lib/snprintf.o lib/permstring.o lib/sysxattrs.o lib/wildmatch.o @BUILD_POPT@
+-TLS_OBJ = tls.o syscall.o android.o util2.o t_stub.o lib/compat.o lib/snprintf.o lib/permstring.o lib/sysxattrs.o @BUILD_POPT@
++TLS_OBJ = tls.o syscall.o android.o util1.o util2.o t_stub.o lib/compat.o lib/snprintf.o lib/permstring.o lib/sysxattrs.o lib/wildmatch.o @BUILD_POPT@
  
  # Programs we must have to run the test cases
  CHECK_PROGS = rsync$(EXEEXT) tls$(EXEEXT) getgroups$(EXEEXT) getfsdev$(EXEEXT) \
-@@ -171,7 +171,7 @@ getgroups$(EXEEXT): getgroups.o
+@@ -178,7 +178,7 @@ getgroups$(EXEEXT): getgroups.o
  getfsdev$(EXEEXT): getfsdev.o
  	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ getfsdev.o $(LIBS)
  
--TRIMSLASH_OBJ = trimslash.o syscall.o util2.o t_stub.o lib/compat.o lib/snprintf.o
-+TRIMSLASH_OBJ = trimslash.o syscall.o util1.o util2.o t_stub.o lib/compat.o lib/snprintf.o lib/wildmatch.o
+-TRIMSLASH_OBJ = trimslash.o syscall.o android.o util2.o t_stub.o lib/compat.o lib/snprintf.o
++TRIMSLASH_OBJ = trimslash.o syscall.o android.o util1.o util2.o t_stub.o lib/compat.o lib/snprintf.o lib/wildmatch.o
  trimslash$(EXEEXT): $(TRIMSLASH_OBJ)
  	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(TRIMSLASH_OBJ) $(LIBS)
  
 diff --git a/generator.c b/generator.c
 --- a/generator.c
 +++ b/generator.c
-@@ -968,7 +968,7 @@ static int try_dests_reg(struct file_struct *file, char *fname, int ndx,
+@@ -974,7 +974,7 @@ static int try_dests_reg(struct file_struct *file, char *fname, int ndx,
  			best_match = j;
  			match_level = 2;
  		}
@@ -47,7 +47,7 @@ diff --git a/generator.c b/generator.c
  			best_match = j;
  			match_level = 3;
  			break;
-@@ -994,9 +994,16 @@ static int try_dests_reg(struct file_struct *file, char *fname, int ndx,
+@@ -1000,9 +1000,16 @@ static int try_dests_reg(struct file_struct *file, char *fname, int ndx,
  				goto got_nothing_for_ya;
  		}
  #ifdef SUPPORT_HARD_LINKS
@@ -67,7 +67,7 @@ diff --git a/generator.c b/generator.c
  			if (atimes_ndx)
  				set_file_attrs(fname, file, sxp, NULL, 0);
  			if (preserve_hard_links && F_IS_HLINKED(file))
-@@ -1110,7 +1117,7 @@ static int try_dests_non(struct file_struct *file, char *fname, int ndx,
+@@ -1116,7 +1123,7 @@ static int try_dests_non(struct file_struct *file, char *fname, int ndx,
  
  	if (match_level == 3) {
  #ifdef SUPPORT_HARD_LINKS
@@ -256,9 +256,9 @@ diff --git a/t_secure_relpath.c b/t_secure_relpath.c
 diff --git a/t_stub.c b/t_stub.c
 --- a/t_stub.c
 +++ b/t_stub.c
-@@ -40,6 +40,7 @@ size_t max_alloc = 0; /* max_alloc is needed when combined with util2.o */
- char *partial_dir;
- char *module_dir;
+@@ -45,6 +45,7 @@ char *module_dir;
+ /* curr_dir[]/curr_dir_len (read by secure_relative_open) are defined in
+  * syscall.c, which every helper links -- no stub needed here. */
  filter_rule_list daemon_filter_list;
 +short info_levels[COUNT_INFO], debug_levels[COUNT_DEBUG];
  

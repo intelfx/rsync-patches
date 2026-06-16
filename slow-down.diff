@@ -14,7 +14,7 @@ To use this patch, run these commands for a successful build:
     ./configure                           (optional if already run)
     make
 
-based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
+based-on: f26f747b8017b321d3776becc69f330dd889fa21
 diff --git a/flist.c b/flist.c
 --- a/flist.c
 +++ b/flist.c
@@ -26,7 +26,7 @@ diff --git a/flist.c b/flist.c
  extern uid_t our_uid;
  extern struct stats stats;
  extern char *filesfrom_host;
-@@ -1890,6 +1891,9 @@ static void send_directory(int f, struct file_list *flist, char *fbuf, int len,
+@@ -1915,6 +1916,9 @@ static void send_directory(int f, struct file_list *flist, char *fbuf, int len,
  		}
  
  		send_file_name(f, flist, fbuf, NULL, flags, filter_level);

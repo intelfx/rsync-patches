@@ -7,7 +7,7 @@ To use this patch, run these commands for a successful build:
     ./configure                         (optional if already run)
     make
 
-based-on: 2c7777aaa62abeb1bca192da345e6e8c685e872a
+based-on: f26f747b8017b321d3776becc69f330dd889fa21
 diff --git a/compat.c b/compat.c
 --- a/compat.c
 +++ b/compat.c
@@ -112,7 +112,7 @@ diff --git a/flist.c b/flist.c
  extern int delete_during;
  extern int missing_args;
  extern int eol_nulls;
-@@ -388,6 +389,9 @@ static void send_file_entry(int f, const char *fname, struct file_struct *file,
+@@ -400,6 +401,9 @@ static void send_file_entry(int f, const char *fname, struct file_struct *file,
  	static time_t crtime;
  #endif
  	static mode_t mode;
@@ -122,7 +122,7 @@ diff --git a/flist.c b/flist.c
  #ifdef SUPPORT_HARD_LINKS
  	static int64 dev;
  #endif
-@@ -431,6 +435,14 @@ static void send_file_entry(int f, const char *fname, struct file_struct *file,
+@@ -443,6 +447,14 @@ static void send_file_entry(int f, const char *fname, struct file_struct *file,
  		xflags |= XMIT_SAME_MODE;
  	else
  		mode = file->mode;
@@ -137,7 +137,7 @@ diff --git a/flist.c b/flist.c
  
  	if (preserve_devices && IS_DEVICE(mode)) {
  		if (protocol_version < 28) {
-@@ -592,6 +604,10 @@ static void send_file_entry(int f, const char *fname, struct file_struct *file,
+@@ -604,6 +616,10 @@ static void send_file_entry(int f, const char *fname, struct file_struct *file,
  #endif
  	if (!(xflags & XMIT_SAME_MODE))
  		write_int(f, to_wire_mode(mode));
@@ -148,7 +148,7 @@ diff --git a/flist.c b/flist.c
  	if (atimes_ndx && !S_ISDIR(mode) && !(xflags & XMIT_SAME_ATIME))
  		write_varlong(f, atime, 4);
  	if (preserve_uid && !(xflags & XMIT_SAME_UID)) {
-@@ -686,6 +702,9 @@ static struct file_struct *recv_file_entry(int f, struct file_list *flist, int x
+@@ -698,6 +714,9 @@ static struct file_struct *recv_file_entry(int f, struct file_list *flist, int x
  	static time_t crtime;
  #endif
  	static mode_t mode;
@@ -158,7 +158,7 @@ diff --git a/flist.c b/flist.c
  #ifdef SUPPORT_HARD_LINKS
  	static int64 dev;
  #endif
-@@ -803,6 +822,10 @@ static struct file_struct *recv_file_entry(int f, struct file_list *flist, int x
+@@ -815,6 +834,10 @@ static struct file_struct *recv_file_entry(int f, struct file_list *flist, int x
  #ifdef SUPPORT_CRTIMES
  			if (crtimes_ndx)
  				crtime = F_CRTIME(first);
@@ -169,7 +169,7 @@ diff --git a/flist.c b/flist.c
  #endif
  			if (preserve_uid)
  				uid = F_OWNER(first);
-@@ -887,6 +910,10 @@ static struct file_struct *recv_file_entry(int f, struct file_list *flist, int x
+@@ -904,6 +927,10 @@ static struct file_struct *recv_file_entry(int f, struct file_list *flist, int x
  
  	if (chmod_modes && !S_ISLNK(mode) && mode)
  		mode = tweak_mode(mode, chmod_modes);
@@ -180,7 +180,7 @@ diff --git a/flist.c b/flist.c
  
  	if (preserve_uid && !(xflags & XMIT_SAME_UID)) {
  		if (protocol_version < 30)
-@@ -1068,6 +1095,10 @@ static struct file_struct *recv_file_entry(int f, struct file_list *flist, int x
+@@ -1085,6 +1112,10 @@ static struct file_struct *recv_file_entry(int f, struct file_list *flist, int x
  	}
  #endif
  	file->mode = mode;
@@ -191,7 +191,7 @@ diff --git a/flist.c b/flist.c
  	if (preserve_uid)
  		F_OWNER(file) = uid;
  	if (preserve_gid) {
-@@ -1481,6 +1512,10 @@ struct file_struct *make_file(const char *fname, struct file_list *flist,
+@@ -1506,6 +1537,10 @@ struct file_struct *make_file(const char *fname, struct file_list *flist,
  	}
  #endif
  	file->mode = st.st_mode;
@@ -218,7 +218,7 @@ diff --git a/generator.c b/generator.c
  extern int delete_mode;
  extern int delete_before;
  extern int delete_during;
-@@ -492,6 +494,10 @@ int unchanged_attrs(const char *fname, struct file_struct *file, stat_x *sxp)
+@@ -493,6 +495,10 @@ int unchanged_attrs(const char *fname, struct file_struct *file, stat_x *sxp)
  			return 0;
  		if (perms_differ(file, sxp))
  			return 0;
@@ -229,7 +229,7 @@ diff --git a/generator.c b/generator.c
  		if (ownership_differs(file, sxp))
  			return 0;
  #ifdef SUPPORT_ACLS
-@@ -553,6 +559,11 @@ void itemize(const char *fnamecmp, struct file_struct *file, int ndx, int statre
+@@ -554,6 +560,11 @@ void itemize(const char *fnamecmp, struct file_struct *file, int ndx, int statre
  			iflags |= ITEM_REPORT_OWNER;
  		if (gid_ndx && !(file->flags & FLAG_SKIP_GROUP) && sxp->st.st_gid != (gid_t)F_GROUP(file))
  			iflags |= ITEM_REPORT_GROUP;
@@ -241,7 +241,7 @@ diff --git a/generator.c b/generator.c
  #ifdef SUPPORT_ACLS
  		if (preserve_acls && !S_ISLNK(file->mode)) {
  			if (!ACL_READY(*sxp))
-@@ -1460,6 +1471,10 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
+@@ -1466,6 +1477,10 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
  		if (!preserve_perms) { /* See comment in non-dir code below. */
  			file->mode = dest_mode(file->mode, sx.st.st_mode, dflt_perms, statret == 0);
  		}
@@ -252,7 +252,7 @@ diff --git a/generator.c b/generator.c
  		if (statret != 0 && basis_dir[0] != NULL) {
  			int j = try_dests_non(file, fname, ndx, fnamecmpbuf, &sx, itemizing, code);
  			if (j == -2) {
-@@ -1502,10 +1517,15 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
+@@ -1508,10 +1523,15 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
  		 * readable and writable permissions during the time we are
  		 * putting files within them.  This is then restored to the
  		 * former permissions after the transfer is done. */
@@ -269,7 +269,7 @@ diff --git a/generator.c b/generator.c
  				rsyserr(FERROR_XFER, errno,
  					"failed to modify permissions on %s",
  					full_fname(fname));
-@@ -1540,6 +1560,10 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
+@@ -1546,6 +1566,10 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
  		int exists = statret == 0 && stype != FT_DIR;
  		file->mode = dest_mode(file->mode, sx.st.st_mode, dflt_perms, exists);
  	}
@@ -280,7 +280,7 @@ diff --git a/generator.c b/generator.c
  
  #ifdef SUPPORT_HARD_LINKS
  	if (preserve_hard_links && F_HLINK_NOT_FIRST(file)
-@@ -2117,17 +2141,25 @@ static void touch_up_dirs(struct file_list *flist, int ndx)
+@@ -2124,17 +2148,25 @@ static void touch_up_dirs(struct file_list *flist, int ndx)
  			continue;
  		fname = f_name(file, NULL);
  		if (fix_dir_perms)
@@ -341,7 +341,7 @@ diff --git a/main.c b/main.c
  extern int msgs2stderr;
  extern int module_id;
  extern int read_only;
-@@ -986,6 +990,22 @@ static int do_recv(int f_in, int f_out, char *local_name)
+@@ -995,6 +999,22 @@ static int do_recv(int f_in, int f_out, char *local_name)
  	 * points to an identical file won't be replaced by the referent. */
  	copy_links = copy_dirlinks = copy_unsafe_links = 0;
  
@@ -878,7 +878,7 @@ diff --git a/syscall.c b/syscall.c
  #else
  		return 0;
  #endif
-@@ -616,7 +658,22 @@ int do_rmdir(const char *pathname)
+@@ -618,7 +660,22 @@ int do_rmdir(const char *pathname)
  {
  	if (dry_run) return 0;
  	RETURN_ERROR_IF_RO_OR_LO;
@@ -902,7 +902,7 @@ diff --git a/syscall.c b/syscall.c
  }
  
  /*
-@@ -756,7 +813,7 @@ int do_open_at(const char *pathname, int flags, mode_t mode)
+@@ -758,7 +815,7 @@ int do_open_at(const char *pathname, int flags, mode_t mode)
  }
  
  #ifdef HAVE_CHMOD
@@ -911,7 +911,7 @@ diff --git a/syscall.c b/syscall.c
  {
  	static int switch_step = 0;
  	int code;
-@@ -795,6 +852,23 @@ int do_chmod(const char *path, mode_t mode)
+@@ -797,6 +854,23 @@ int do_chmod(const char *path, mode_t mode)
  			code = chmod(path, mode & CHMOD_BITS); /* DISCOURAGED FUNCTION */
  		break;
  	}
@@ -935,7 +935,7 @@ diff --git a/syscall.c b/syscall.c
  	if (code != 0 && (preserve_perms || preserve_executability))
  		return code;
  	return 0;
-@@ -828,7 +902,7 @@ int do_chmod(const char *path, mode_t mode)
+@@ -830,7 +904,7 @@ int do_chmod(const char *path, mode_t mode)
    Falls back to do_chmod() for absolute paths and for paths with no parent
    component, where there is nothing to protect against.
  */
@@ -944,7 +944,7 @@ diff --git a/syscall.c b/syscall.c
  {
  #ifdef AT_FDCWD
  	extern int am_daemon, am_chrooted;
-@@ -848,14 +922,14 @@ int do_chmod_at(const char *fname, mode_t mode)
+@@ -850,14 +924,14 @@ int do_chmod_at(const char *fname, mode_t mode)
  	 * already access.  Everywhere else, fall through to plain
  	 * do_chmod() to avoid the dirfd-open overhead on every call. */
  	if (!am_daemon || am_chrooted)
@@ -962,7 +962,7 @@ diff --git a/syscall.c b/syscall.c
  
  	dlen = slash - fname;
  	if (dlen >= sizeof dirpath) {
-@@ -874,18 +948,60 @@ int do_chmod_at(const char *fname, mode_t mode)
+@@ -876,18 +950,60 @@ int do_chmod_at(const char *fname, mode_t mode)
  	e = errno;
  	close(dfd);
  	errno = e;
@@ -1025,7 +1025,7 @@ diff --git a/syscall.c b/syscall.c
  }
  
  /*
-@@ -1859,7 +1975,7 @@ int secure_relative_open(const char *basedir, const char *relpath, int flags, mo
+@@ -1949,7 +2065,7 @@ int secure_relative_open(const char *basedir, const char *relpath, int flags, mo
  		if (dirfd != AT_FDCWD) close(dirfd);
  		return -1;
  	}
@@ -1080,7 +1080,7 @@ diff --git a/t_stub.c b/t_stub.c
  int preserve_xattrs = 0;
  int preserve_perms = 0;
  int preserve_executability = 0;
-@@ -113,3 +115,23 @@ filter_rule_list daemon_filter_list;
+@@ -118,3 +120,23 @@ filter_rule_list daemon_filter_list;
  {
  	return cst ? 0 : 0;
  }
